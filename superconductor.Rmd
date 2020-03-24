@@ -1,0 +1,24 @@
+train <- read.table("~/Downloads/sc_train.csv", 
+                       header = TRUE,
+                       sep = ",")
+                       
+unique <- read.table("~/Downloads/sc_unique_m.csv", 
+                       header = TRUE,
+                       sep = ",")                     
+
+merge_df <- merge(train, unique, by=train$rownumbers)
+summary(merge_df)
+
+merge_df <- cbind(train, unique)
+
+head(merge_df, n=5)
+
+plot(merge_df$mean_atomic_mass, merge_df$critical_temp, main="Tc vs mean atomic mass",
+   xlab="Mean atomic mass ", ylab="Tc", pch=19)
+   
+merge_df = merge_df[(merge_df$critical_temp < 180),]
+
+
+# Cleaning done - export data
+
+write.csv(merge_df, "MSteele_cleaned_sc_data.csv",row.names=F)
